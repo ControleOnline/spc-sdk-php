@@ -25,12 +25,20 @@ class SPCClient
         $this->password = $password;
 
         try {
+            // Configurar contexto com autenticação básica
+            $context = stream_context_create([
+                'http' => [
+                    'header' => sprintf('Authorization: Basic %s', base64_encode("$operatorId:$password")),
+                ],
+            ]);
+
             // Initialize consultaWebService client
             $this->consultaClient = new \SoapClient(self::CONSULTA_WSDL, [
                 'trace' => true,
                 'exceptions' => true,
                 'cache_wsdl' => WSDL_CACHE_NONE,
                 'soap_version' => SOAP_1_1,
+                'stream_context' => $context,
             ]);
             $this->addWSSecurityHeaders($this->consultaClient);
 
@@ -40,6 +48,7 @@ class SPCClient
                 'exceptions' => true,
                 'cache_wsdl' => WSDL_CACHE_NONE,
                 'soap_version' => SOAP_1_1,
+                'stream_context' => $context,
             ]);
             $this->addWSSecurityHeaders($this->insumoClient);
         } catch (\SoapFault $e) {
