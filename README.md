@@ -5,7 +5,7 @@
 ### Contact for Developers
 
 <a href="https://chat.whatsapp.com/KtplmnuqcXK9nIETLcYBGt" target="_blank">
-  <img src="https://static.spc.net/rsrc.php/yZ/r/JvsnINJ2CZv.svg" />
+  <img src="https://static.whatsapp.net/rsrc.php/yZ/r/JvsnINJ2CZv.svg" />
 </a>
 
 ### Top contributors
