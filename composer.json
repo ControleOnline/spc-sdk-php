@@ -1,0 +1,26 @@
+{
+  "name": "controleonline/spc-sdk",
+  "description": "SDK em to integrate a spc API",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Controle Online",
+      "email": "ti@controleonline.com"
+    }
+  ],
+  "require": {
+    "php": "^7.4 || ^8.0",
+    "guzzlehttp/guzzle": "^7.0",
+    "controleonline/messages-sdk": "*"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "ControleOnline\\spc\\": "src/"
+    }
+  },
+  "minimum-stability": "stable"
+}
