@@ -105,7 +105,7 @@ class SPCClient
      * @return array List of products
      * @throws \SoapFault If the SOAP call fails
      */
-    public function listarProdutos(): array
+    public function listarProdutos()
     {
         try {
             $response = $this->consultaClient->listarProdutos();
@@ -122,7 +122,7 @@ class SPCClient
      * @return array Query result
      * @throws \SoapFault If the SOAP call fails
      */
-    public function consultar(array $filtro): array
+    public function consultar(array $filtro)
     {
         try {
             $response = $this->consultaClient->consultar(['filtro' => $filtro]);
@@ -139,7 +139,7 @@ class SPCClient
      * @return array Product details
      * @throws \SoapFault If the SOAP call fails
      */
-    public function detalharProduto(string $codigoProduto): array
+    public function detalharProduto(string $codigoProduto)
     {
         try {
             $response = $this->consultaClient->detalharProduto(['codigo-produto' => $codigoProduto]);
@@ -156,7 +156,7 @@ class SPCClient
      * @return array Query result
      * @throws \SoapFault If the SOAP call fails
      */
-    public function consultaComplementar(array $filtroComplementar): array
+    public function consultaComplementar(array $filtroComplementar)
     {
         try {
             $response = $this->consultaClient->consultaComplementar(['filtro-complementar' => $filtroComplementar]);
@@ -173,7 +173,7 @@ class SPCClient
      * @return array Score query result
      * @throws \SoapFault If the SOAP call fails
      */
-    public function consultaScore(array $filtroScore): array
+    public function consultaScore(array $filtroScore)
     {
         try {
             $response = $this->consultaClient->consultaScore(['filtro-score' => $filtroScore]);
@@ -190,7 +190,7 @@ class SPCClient
      * @return array Optional input query result
      * @throws \SoapFault If the SOAP call fails
      */
-    public function consultaInsumoOpcional(array $filtroInsumoOpcional): array
+    public function consultaInsumoOpcional(array $filtroInsumoOpcional)
     {
         try {
             $response = $this->consultaClient->consultaInsumoOpcional(['filtro-insumo-opcional' => $filtroInsumoOpcional]);
@@ -209,13 +209,17 @@ class SPCClient
      * @return array Response data
      * @throws \SoapFault If the SOAP call fails
      */
-    public function incluirSpc(array $parameters): array
+    public function incluirSpc(array $parameters)
     {
         try {
-            $response = $this->insumoClient->incluirSpc(['parameters' => $parameters]);
-            return $response->parameters ?? [];
+            $response = $this->insumoClient->incluirSpc(['insumoSpc' => $parameters['insumoSpc']]);
+            return $response->sucesso ?? [];
         } catch (\SoapFault $e) {
             throw new \SoapFault($e->faultcode, "Failed to include SPC record: " . $e->getMessage());
+        } finally {
+            //echo "\n\nÚltima requisição SOAP enviada (incluirSpc):\n";
+            //echo $this->insumoClient->__getLastRequest();
+            //echo "\n";
         }
     }
 
@@ -226,7 +230,7 @@ class SPCClient
      * @return array Response data
      * @throws \SoapFault If the SOAP call fails
      */
-    public function excluirSpc(array $parameters): array
+    public function excluirSpc(array $parameters)
     {
         try {
             $response = $this->insumoClient->excluirSpc(['parameters' => $parameters]);
@@ -243,7 +247,7 @@ class SPCClient
      * @return array List of inclusion types
      * @throws \SoapFault If the SOAP call fails
      */
-    public function listarNaturezaInclusao(array $parameters = []): array
+    public function listarNaturezaInclusao(array $parameters = [])
     {
         try {
             $response = $this->insumoClient->listarNaturezaInclusao(['parameters' => $parameters]);
@@ -260,7 +264,7 @@ class SPCClient
      * @return array List of exclusion reasons
      * @throws \SoapFault If the SOAP call fails
      */
-    public function listarMotivoExclusao(array $parameters = []): array
+    public function listarMotivoExclusao(array $parameters = [])
     {
         try {
             $response = $this->insumoClient->listarMotivoExclusao(['parameters' => $parameters]);
@@ -277,7 +281,7 @@ class SPCClient
      * @return array List of debtor types
      * @throws \SoapFault If the SOAP call fails
      */
-    public function listarTipoDevedor(array $parameters = []): array
+    public function listarTipoDevedor(array $parameters = [])
     {
         try {
             $response = $this->insumoClient->listarTipoDevedor(['parameters' => $parameters]);
@@ -294,7 +298,7 @@ class SPCClient
      * @return array Response data
      * @throws \SoapFault If the SOAP call fails
      */
-    public function incluirSpcMobile(array $parameters): array
+    public function incluirSpcMobile(array $parameters)
     {
         try {
             $response = $this->insumoClient->incluirSpcMobile(['parameters' => $parameters]);
@@ -311,7 +315,7 @@ class SPCClient
      * @return array Response data
      * @throws \SoapFault If the SOAP call fails
      */
-    public function excluirSpcMobile(array $parameters): array
+    public function excluirSpcMobile(array $parameters)
     {
         try {
             $response = $this->insumoClient->excluirSpcMobile(['parameters' => $parameters]);

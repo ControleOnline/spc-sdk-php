@@ -18,7 +18,8 @@ function handleSoapError(\SoapFault $e)
 try {
     $spcClient = new SPCClient($operatorId, $password);
 
-    echo "\nTentando negativar cliente com a estrutura do NOVO WSDL...\n";
+
+    echo "\nTentando negativar cliente com a estrutura do NOVO WSDL + endereço...\n";
     $parametrosInclusao = [
         'insumoSpc' => [
             'tipo-pessoa' => 'F',
@@ -39,21 +40,37 @@ try {
                 'nome' => "ATRASO DE PAGAMENTO"
             ],
             'codigo-tipo-devedor' => 'C',
+            'endereco-pessoa' => [
+                'cep' => '01001000',
+                'logradouro' => 'Rua Exemplo',
+                'bairro' => 'Centro',
+                'numero' => '123',
+                'cidade' => [
+                    'nome' => 'São Paulo',
+                    'estado' => [
+                        'sigla-uf' => 'SP',
+                    ],
+                ],
+            ],
         ],
     ];
 
-    $resultadoInclusao = $spcClient->incluirSpc($parametrosInclusao);
+    try {
+        $resultadoInclusao = $spcClient->incluirSpc($parametrosInclusao);
 
-    if (!empty($resultadoInclusao)) {
-        echo "Negativação realizada com sucesso:\n";
-        print_r($resultadoInclusao);
-        $protocoloInclusao = $resultadoInclusao['protocolo'] ?? null;
-    } else {
-        echo "Falha ao negativar o cliente.\n";
-        exit(1);
+        if (!empty($resultadoInclusao)) {
+            echo "Negativação realizada com sucesso:\n";
+            print_r($resultadoInclusao);
+            $protocoloInclusao = $resultadoInclusao['protocolo'] ?? null;
+        } else {
+            echo "Falha ao negativar o cliente.\n";
+            exit(1);
+        }
+    } catch (\SoapFault $e) {
+        handleSoapError($e);
     }
-} catch (\SoapFault $e) {
-    handleSoapError($e);
+
+    echo "\n";
 } catch (\Exception $e) {
     echo "Erro inesperado: {$e->getMessage()}\n";
     exit(1);
