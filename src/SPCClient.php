@@ -91,7 +91,7 @@ class SPCClient
                 ),
                 SOAP_ENC_OBJECT
             ),
-            true
+            false
         );
 
         $client->__setSoapHeaders([$security]);
